@@ -1,5 +1,5 @@
-#include "CUnit/CUnit.h"
-#include "CUnit/Basic.h"
+#include <CUnit/CUnit.h>
+#include <CUnit/Basic.h>
 
 #include "../src/hashtable.h"
 #include "../src/philphix.h"

@@ -47,7 +47,7 @@ void insertData(HashTable *table, void *key, void *data) {
     // 1. Find the right hash bucket location with table->hashFunction.
     // 2. Allocate a new hash bucket entry struct.
     // 3. Append to the linked list or create it if it does not yet exist.
-    unsigned int loc = table->hashFunction(key);
+    unsigned int loc = table->hashFunction(key) % table->size;
     HashBucketEntry *entry = table->buckets[loc];
     HashBucketEntry *newEntry = (HashBucketEntry *) malloc(sizeof(HashBucketEntry));
 
@@ -73,7 +73,7 @@ void *findData(HashTable *table, void *key) {
     // HINT:
     // 1. Find the right hash bucket with table->hashFunction.
     // 2. Walk the linked list and check for equality with table->equalFunction.
-    unsigned int loc = table->hashFunction(key);
+    unsigned int loc = table->hashFunction(key) % table->size;
     HashBucketEntry *entry = table->buckets[loc];
 
     while (entry != NULL) {
@@ -93,10 +93,10 @@ unsigned int stringHash(void *s) {
     const int B = 31;
     unsigned int res = 0;
 
-    while (string) {
-        res = (res * B + string[0]) % M;
-        string++;
-    }
+	unsigned int len = strlen(string);
+	for (size_t i = 0; i < len; i++) {
+		res = (res * B + string[i]) % M;
+	}
 
     return res;
 }

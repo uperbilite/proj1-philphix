@@ -69,8 +69,23 @@ int main(int argc, char **argv) {
 
 /* Task 3 */
 void readDictionary(char *dictName) {
-    // -- TODO --
-    fprintf(stderr, "You need to implement readDictionary\n");
+    FILE *fp = fopen(dictName, "r");
+    if (fp == NULL) {
+        fprintf(stderr, "Dictionary file cannot open \n");
+        exit(61);
+    }
+    rewind(fp);
+
+    char *key = malloc(sizeof(char) * 60 + 1);
+    char *value = malloc(sizeof(char) * 60 + 1);
+    key[0] = '\0';
+    value[0] = '\0';
+    while (fscanf(fp, "%60s", key) != EOF) {
+        fscanf(fp, "%60s", value);
+        insertData(dictionary, key, value);
+    }
+
+    fclose(fp);
 }
 
 /* Task 4 */

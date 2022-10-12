@@ -71,20 +71,20 @@ int main(int argc, char **argv) {
 void readDictionary(char *dictName) {
     FILE *fp = fopen(dictName, "r");
     if (fp == NULL) {
-        fprintf(stderr, "Dictionary file cannot open \n");
+        fprintf(stderr, "Dictionary file cannot open\n");
         exit(61);
     }
     rewind(fp);
 
-    char *key = malloc(sizeof(char) * 60 + 1);
-    char *value = malloc(sizeof(char) * 60 + 1);
-    key[0] = '\0';
-    value[0] = '\0';
-    while (fscanf(fp, "%60s", key) != EOF) {
-        fscanf(fp, "%60s", value);
-        insertData(dictionary, key, value);
+    char *key = malloc(sizeof(char) * 61);
+    char *data = malloc(sizeof(char) * 61);
+    while (fscanf(fp, "%s", key) != EOF && fscanf(fp, "%s", data) != EOF) {
+        printf("%s %s\n", key, data);
+        insertData(dictionary, (void *) key, (void *) data);
     }
 
+    free(key);
+    free(data);
     fclose(fp);
 }
 

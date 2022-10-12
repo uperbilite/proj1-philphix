@@ -48,7 +48,6 @@ void insertData(HashTable *table, void *key, void *data) {
     // 2. Allocate a new hash bucket entry struct.
     // 3. Append to the linked list or create it if it does not yet exist.
     unsigned int loc = table->hashFunction(key) % table->size;
-    HashBucketEntry *entry = table->buckets[loc];
     HashBucketEntry *newEntry = (HashBucketEntry *) malloc(sizeof(HashBucketEntry));
 
     if (newEntry == NULL) {
@@ -56,16 +55,10 @@ void insertData(HashTable *table, void *key, void *data) {
         exit(1);
     }
 
+    newEntry->next = table->buckets[loc];
     newEntry->key = key;
     newEntry->data = data;
-    newEntry->next = NULL;
-
-    if (entry == NULL) {
-        table->buckets[loc] = newEntry;
-    } else {
-        table->buckets[loc] = newEntry;
-        newEntry->next = entry;
-    }
+    table->buckets[loc] = newEntry;
 }
 
 /* Task 1.3 */

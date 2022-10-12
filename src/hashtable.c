@@ -88,10 +88,16 @@ void *findData(HashTable *table, void *key) {
 
 /* Task 2.1 */
 unsigned int stringHash(void *s) {
-    // -- TODO --
-    fprintf(stderr, "need to implement stringHash\n");
-    /* To suppress compiler warning until you implement this function, */
-    return 0;
+    const int M = 1e9 + 7;
+    const int B = 31;
+    unsigned int res = 0;
+
+    while (s) {
+        res = (res * B + ((char *) s)[0]) % M;
+        s++;
+    }
+
+    return res;
 }
 
 /* Task 2.2 */

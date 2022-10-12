@@ -41,22 +41,22 @@ int clean_hashtb() {
 void test_InsertGet() {
     char *tkey = "in";
     char *tval = "out";
-    insertData(dictionary, (void*)tkey, (void*)tval);
-    CU_ASSERT((void*)tval == findData(dictionary, (void*)tkey));
+    insertData(dictionary, (void *) tkey, (void *) tval);
+    CU_ASSERT((void *) tval == findData(dictionary, (void *) tkey));
 
     char *tkey1 = "inner";
     char *tval1 = "outer";
-    insertData(dictionary, (void*)tkey1, (void*)tval1);
-    CU_ASSERT((void*)tval1 == findData(dictionary, (void*)tkey1));
-    CU_ASSERT(NULL == findData(dictionary, (void*)tval));
+    insertData(dictionary, (void *) tkey1, (void *) tval1);
+    CU_ASSERT((void *) tval1 == findData(dictionary, (void *) tkey1));
+    CU_ASSERT(NULL == findData(dictionary, (void *) tval));
 }
 
 // Non-existent key should return NULL
 void test_badGet() {
     char *tval = "out"; // exists as a value but not a key
     char *DNE = "doesnotexist";
-    CU_ASSERT(NULL == findData(dictionary, (void*)tval));
-    CU_ASSERT(NULL == findData(dictionary, (void*)DNE));
+    CU_ASSERT(NULL == findData(dictionary, (void *) tval));
+    CU_ASSERT(NULL == findData(dictionary, (void *) DNE));
 }
 
 void test_stringEq() {
@@ -68,12 +68,12 @@ void test_stringEq() {
     char *s4c = "";
     char *s5 = "\t\n";
     char *s5c = "\t\n";
-    CU_ASSERT(0 != stringEquals((void*)s1, (void*)s1c));
-    CU_ASSERT(0 == stringEquals((void*)s1, (void*)s2));
-    CU_ASSERT(0 == stringEquals((void*)s1, (void*)s3));
-    CU_ASSERT(0 != stringEquals((void*)s4, (void*)s4c));
-    CU_ASSERT(0 == stringEquals((void*)s4, (void*)s5));
-    CU_ASSERT(0 != stringEquals((void*)s5, (void*)s5c));
+    CU_ASSERT(0 != stringEquals((void *) s1, (void *) s1c));
+    CU_ASSERT(0 == stringEquals((void *) s1, (void *) s2));
+    CU_ASSERT(0 == stringEquals((void *) s1, (void *) s3));
+    CU_ASSERT(0 != stringEquals((void *) s4, (void *) s4c));
+    CU_ASSERT(0 == stringEquals((void *) s4, (void *) s5));
+    CU_ASSERT(0 != stringEquals((void *) s5, (void *) s5c));
 }
 
 /** Hashes should be deterministic and (generally) distinct */
@@ -81,9 +81,9 @@ void test_stringHash() {
     char *s1 = "thisclassisCS61C";
     char *s2 = "thisClassisCS61C";
     char *s3 = "someotherstring";
-    CU_ASSERT(stringHash((void*)s1) == stringHash((void*)s1));
-    CU_ASSERT(stringHash((void*)s1) != stringHash((void*)s2));
-    CU_ASSERT(stringHash((void*)s1) != stringHash((void*)s3));
+    CU_ASSERT(stringHash((void *) s1) == stringHash((void *) s1));
+    CU_ASSERT(stringHash((void *) s1) != stringHash((void *) s2));
+    CU_ASSERT(stringHash((void *) s1) != stringHash((void *) s3));
 }
 
 // Task 3: Dictionary
@@ -114,7 +114,7 @@ int task3_test_teardown() {
 }
 
 
-int task3_helper_write(char* s) {
+int task3_helper_write(char *s) {
     FILE *outFile = fopen("unittest.dict", "w");
     int r = fputs(s, outFile);
     fclose(outFile);
@@ -124,7 +124,7 @@ int task3_helper_write(char* s) {
 void task3_test_empty() {
     CU_ASSERT(task3_test_setup() == 0);
 
-    char* dictStr = "";
+    char *dictStr = "";
     CU_ASSERT(task3_helper_write(dictStr) >= 0)
 
     readDictionary("unittest.dict");
@@ -138,14 +138,14 @@ void task3_test_empty() {
 void task3_test_simple() {
     CU_ASSERT(task3_test_setup() == 0);
 
-    char* dictStr = "a b\n";
+    char *dictStr = "a b\n";
     CU_ASSERT(task3_helper_write(dictStr) >= 0)
 
     readDictionary("unittest.dict");
 
-    char* key = "a";
-    char* value = "b";
-    char* foundData = findData(dictionary, key);
+    char *key = "a";
+    char *value = "b";
+    char *foundData = findData(dictionary, key);
     CU_ASSERT(foundData != NULL);
     CU_ASSERT(strcmp(foundData, value) == 0);
 
@@ -155,14 +155,14 @@ void task3_test_simple() {
 void task3_test_simple_no_newline() {
     CU_ASSERT(task3_test_setup() == 0);
 
-    char* dictStr = "a b";
+    char *dictStr = "a b";
     CU_ASSERT(task3_helper_write(dictStr) >= 0)
 
     readDictionary("unittest.dict");
 
-    char* key = "a";
-    char* value = "b";
-    char* foundData = findData(dictionary, key);
+    char *key = "a";
+    char *value = "b";
+    char *foundData = findData(dictionary, key);
     CU_ASSERT(foundData != NULL);
     CU_ASSERT(strcmp(foundData, value) == 0);
 
@@ -171,15 +171,15 @@ void task3_test_simple_no_newline() {
 
 void task3_test_alphanum() {
     CU_ASSERT(task3_test_setup() == 0);
-    
-    char* dictStr = "abcABC123 b\n";
+
+    char *dictStr = "abcABC123 b\n";
     CU_ASSERT(task3_helper_write(dictStr) >= 0)
 
     readDictionary("unittest.dict");
 
-    char* key = "abcABC123";
-    char* value = "b";
-    char* foundData = findData(dictionary, key);
+    char *key = "abcABC123";
+    char *value = "b";
+    char *foundData = findData(dictionary, key);
     CU_ASSERT(foundData != NULL);
     CU_ASSERT(strcmp(foundData, value) == 0);
 
@@ -189,14 +189,14 @@ void task3_test_alphanum() {
 void task3_test_multiline() {
     CU_ASSERT(task3_test_setup() == 0);
 
-    char* dictStr = "a b\nc d\ne f\ng h\n";
+    char *dictStr = "a b\nc d\ne f\ng h\n";
     CU_ASSERT(task3_helper_write(dictStr) >= 0)
 
     readDictionary("unittest.dict");
 
-    char* key = "a";
-    char* value = "b";
-    char* foundData = findData(dictionary, key);
+    char *key = "a";
+    char *value = "b";
+    char *foundData = findData(dictionary, key);
     CU_ASSERT(foundData != NULL);
     CU_ASSERT(strcmp(foundData, value) == 0);
 
@@ -224,14 +224,14 @@ void task3_test_multiline() {
 void task3_test_punctuation() {
     CU_ASSERT(task3_test_setup() == 0);
 
-    char* dictStr = "a abc,def.ghi!jkl\n";
+    char *dictStr = "a abc,def.ghi!jkl\n";
     CU_ASSERT(task3_helper_write(dictStr) >= 0)
 
     readDictionary("unittest.dict");
 
-    char* key = "a";
-    char* value = "abc,def.ghi!jkl";
-    char* foundData = findData(dictionary, key);
+    char *key = "a";
+    char *value = "abc,def.ghi!jkl";
+    char *foundData = findData(dictionary, key);
     CU_ASSERT(foundData != NULL);
     CU_ASSERT(strcmp(foundData, value) == 0);
 
@@ -241,14 +241,14 @@ void task3_test_punctuation() {
 void task3_test_tabs() {
     CU_ASSERT(task3_test_setup() == 0);
 
-    char* dictStr = "a\tb\nc\t\td\ne \tf\ng\t h\n";
+    char *dictStr = "a\tb\nc\t\td\ne \tf\ng\t h\n";
     CU_ASSERT(task3_helper_write(dictStr) >= 0)
 
     readDictionary("unittest.dict");
 
-    char* key = "a";
-    char* value = "b";
-    char* foundData = findData(dictionary, key);
+    char *key = "a";
+    char *value = "b";
+    char *foundData = findData(dictionary, key);
     CU_ASSERT(foundData != NULL);
     CU_ASSERT(strcmp(foundData, value) == 0);
 
@@ -276,7 +276,7 @@ void task3_test_tabs() {
 
 int main() {
     CU_pSuite pSuite;
-    
+
     // init CUnit
     if (CUE_SUCCESS != CU_initialize_registry()) {
         return CU_get_error();
@@ -288,12 +288,12 @@ int main() {
         return CU_get_error();
     }
 
-    if ((CU_add_test(pSuite, "HashTable Insert & Get", test_InsertGet) == NULL) 
-            || (CU_add_test(pSuite, "HashTable Get", test_badGet) == NULL )
-            || (CU_add_test(pSuite, "stringEquals", test_stringEq) == NULL )
-            || (CU_add_test(pSuite, "stringHash", test_stringHash) == NULL )
+    if ((CU_add_test(pSuite, "HashTable Insert & Get", test_InsertGet) == NULL)
+        || (CU_add_test(pSuite, "HashTable Get", test_badGet) == NULL)
+        || (CU_add_test(pSuite, "stringEquals", test_stringEq) == NULL)
+        || (CU_add_test(pSuite, "stringHash", test_stringHash) == NULL)
             ) {
-        
+
         CU_cleanup_registry();
         return CU_get_error();
     }
@@ -306,13 +306,13 @@ int main() {
     }
 
     if ((CU_add_test(task3Suite, "Empty dictionary", task3_test_empty) == NULL) ||
-        (CU_add_test(task3Suite, "Simple", task3_test_simple) == NULL) ||       
-        (CU_add_test(task3Suite, "Simple without newline", task3_test_simple_no_newline) == NULL) ||       
-        (CU_add_test(task3Suite, "Alphanumeric key", task3_test_alphanum) == NULL) ||       
-        (CU_add_test(task3Suite, "Multiple entries", task3_test_multiline) == NULL) ||       
-        (CU_add_test(task3Suite, "Non-alphanumeric value", task3_test_punctuation) == NULL) ||       
+        (CU_add_test(task3Suite, "Simple", task3_test_simple) == NULL) ||
+        (CU_add_test(task3Suite, "Simple without newline", task3_test_simple_no_newline) == NULL) ||
+        (CU_add_test(task3Suite, "Alphanumeric key", task3_test_alphanum) == NULL) ||
+        (CU_add_test(task3Suite, "Multiple entries", task3_test_multiline) == NULL) ||
+        (CU_add_test(task3Suite, "Non-alphanumeric value", task3_test_punctuation) == NULL) ||
         (CU_add_test(task3Suite, "Tabs and spaces", task3_test_tabs) == NULL)
-       ) {
+            ) {
         CU_cleanup_registry();
         return CU_get_error();
     }

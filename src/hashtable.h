@@ -20,15 +20,15 @@
  * for equality.
  */
 typedef struct HashBucketEntry {
-  void *key;
-  void *data;
-  struct HashBucketEntry *next;
+    void *key;
+    void *data;
+    struct HashBucketEntry *next;
 } HashBucketEntry;
 
 /* Task 1.1 */
 typedef struct HashTable {
-  // -- TODO --
-  // HINT: Take a look at createHashTable.
+    // -- TODO --
+    // HINT: Take a look at createHashTable.
 } HashTable;
 
 /*

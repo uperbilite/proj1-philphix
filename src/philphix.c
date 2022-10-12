@@ -39,40 +39,42 @@ HashTable *dictionary;
  * the grading process.
  */
 #ifndef _PHILPHIX_UNITTEST
+
 int main(int argc, char **argv) {
-  if (argc != 2) {
-    fprintf(stderr, "Specify a dictionary\n");
-    return 1;
-  }
-  /*
-   * Allocate a hash table to store the dictionary.
-   */
-  fprintf(stderr, "Creating hashtable\n");
-  dictionary = createHashTable(0x61C, &stringHash, &stringEquals);
+    if (argc != 2) {
+        fprintf(stderr, "Specify a dictionary\n");
+        return 1;
+    }
+    /*
+     * Allocate a hash table to store the dictionary.
+     */
+    fprintf(stderr, "Creating hashtable\n");
+    dictionary = createHashTable(0x61C, &stringHash, &stringEquals);
 
-  fprintf(stderr, "Loading dictionary %s\n", argv[1]);
-  readDictionary(argv[1]);
-  fprintf(stderr, "Dictionary loaded\n");
+    fprintf(stderr, "Loading dictionary %s\n", argv[1]);
+    readDictionary(argv[1]);
+    fprintf(stderr, "Dictionary loaded\n");
 
-  fprintf(stderr, "Processing stdin\n");
-  processInput();
+    fprintf(stderr, "Processing stdin\n");
+    processInput();
 
-  /*
-   * The MAIN function in C should always return 0 as a way of telling
-   * whatever program invoked this that everything went OK.
-   */
-  return 0;
+    /*
+     * The MAIN function in C should always return 0 as a way of telling
+     * whatever program invoked this that everything went OK.
+     */
+    return 0;
 }
+
 #endif /* _PHILPHIX_UNITTEST */
 
 /* Task 3 */
 void readDictionary(char *dictName) {
-  // -- TODO --
-  fprintf(stderr, "You need to implement readDictionary\n");
+    // -- TODO --
+    fprintf(stderr, "You need to implement readDictionary\n");
 }
 
 /* Task 4 */
 void processInput() {
-  // -- TODO --
-  fprintf(stderr, "You need to implement processInput\n");
+    // -- TODO --
+    fprintf(stderr, "You need to implement processInput\n");
 }

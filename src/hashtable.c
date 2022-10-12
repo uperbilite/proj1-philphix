@@ -43,7 +43,6 @@ HashTable *createHashTable(int size, unsigned int (*hashFunction)(void *),
 
 /* Task 1.2 */
 void insertData(HashTable *table, void *key, void *data) {
-    // -- TODO --
     // HINT:
     // 1. Find the right hash bucket location with table->hashFunction.
     // 2. Allocate a new hash bucket entry struct.
@@ -71,10 +70,20 @@ void insertData(HashTable *table, void *key, void *data) {
 
 /* Task 1.3 */
 void *findData(HashTable *table, void *key) {
-    // -- TODO --
     // HINT:
     // 1. Find the right hash bucket with table->hashFunction.
     // 2. Walk the linked list and check for equality with table->equalFunction.
+    unsigned int loc = table->hashFunction(key);
+    HashBucketEntry *entry = table->buckets[loc];
+
+    while (entry != NULL) {
+        if (table->equalFunction(key, entry->key)) {
+            return entry->data;
+        }
+        entry = entry->next;
+    }
+
+    return NULL;
 }
 
 /* Task 2.1 */

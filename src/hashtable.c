@@ -88,13 +88,14 @@ void *findData(HashTable *table, void *key) {
 
 /* Task 2.1 */
 unsigned int stringHash(void *s) {
+    char *string = (char *) s;
     const int M = 1e9 + 7;
     const int B = 31;
     unsigned int res = 0;
 
-    while (s) {
-        res = (res * B + ((char *) s)[0]) % M;
-        s++;
+    while (string) {
+        res = (res * B + string[0]) % M;
+        string++;
     }
 
     return res;
@@ -102,8 +103,5 @@ unsigned int stringHash(void *s) {
 
 /* Task 2.2 */
 int stringEquals(void *s1, void *s2) {
-    // -- TODO --
-    fprintf(stderr, "You need to implement stringEquals");
-    /* To suppress compiler warning until you implement this function */
-    return 0;
+    return strcmp((char *) s1, (char *) s2) == 0;
 }

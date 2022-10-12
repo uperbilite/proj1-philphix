@@ -93,10 +93,10 @@ unsigned int stringHash(void *s) {
     const int B = 31;
     unsigned int res = 0;
 
-	unsigned int len = strlen(string);
-	for (size_t i = 0; i < len; i++) {
-		res = (res * B + string[i]) % M;
-	}
+    unsigned int len = strlen(string);
+    for (size_t i = 0; i < len; i++) {
+        res = (res * B + string[i]) % M;
+    }
 
     return res;
 }

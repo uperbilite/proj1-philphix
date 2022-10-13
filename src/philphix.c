@@ -110,7 +110,6 @@ void readDictionary(char *dictName) {
         fprintf(stderr, "file doesn't exist");
         exit(61);
     }
-    rewind(fp);
 
     while (1) {
         char *key = readString(fp);
@@ -191,12 +190,11 @@ void processInput() {
             char *word = readWordStartFrom(ch);
             char *data = getDataFrom(word);
             printf("%s", data);
+            free(word);
 
-            if (!isAlphanumeric(*ch) && *ch != EOF) {
+            if (*ch != EOF) {
                 printf("%c", *ch);
             }
-
-            free(word);
         } else {
             printf("%c", *ch);
         }

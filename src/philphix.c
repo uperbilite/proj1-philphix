@@ -132,22 +132,21 @@ void readDictionary(char *dictName) {
  * and return
  */
 char *readWordStartFrom(int *ch) {
-    int len = 20;
+    int size = 20;
+    int len = 0;
     char *word = malloc(sizeof(char) * len);
-    word[0] = (char) *ch;
-    word[1] = '\0';
+    word[len++] = (char) *ch;
 
     while ((*ch = getchar()) != EOF && isAlphanumeric(*ch)) {
-        unsigned int s = strlen(word);
-        if (s > len * 0.75) {
-            len <<= 1;
-            word = realloc(word, sizeof(char) * len);
+        if (len > size * 0.75) {
+            size <<= 1;
+            word = realloc(word, sizeof(char) * size);
         }
-        word[s] = (char) *ch;
-        word[s + 1] = '\0';
+        word[len++] = (char) *ch;
     }
+    word[len++] = '\0';
 
-    return word;
+    return realloc(word, sizeof(char) * len);
 }
 
 char *getDataFrom(char *word) {
@@ -193,7 +192,7 @@ void processInput() {
             char *data = getDataFrom(word);
             printf("%s", data);
 
-            if (!isAlphanumeric(*ch)) {
+            if (!isAlphanumeric(*ch) && *ch != EOF) {
                 printf("%c", *ch);
             }
 

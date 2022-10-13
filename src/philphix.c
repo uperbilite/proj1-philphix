@@ -67,6 +67,34 @@ int main(int argc, char **argv) {
 
 #endif /* _PHILPHIX_UNITTEST */
 
+int isAlphanumeric(int ch) {
+    return isalpha(ch) || (ch >= '0' && ch <= '9');
+}
+
+char *readString(FILE *fp) {
+    int size = 20;
+    int len = 0;
+    char *string = malloc(sizeof(char) * size);
+    int ch;
+
+    // filter the whitespace character
+    while ((ch = fgetc(fp)) != EOF && isspace(ch));
+
+    while ((ch = fgetc(fp)) != EOF) {
+        if (isspace(ch)) {
+            string[len++] = '\0';
+            return realloc(string, sizeof(char) * len);
+        }
+        if (len > size * 0.75) {
+            size <<= 1;
+            string = realloc(string, sizeof(char) * size);
+        }
+        string[len++] = (char) ch;
+    }
+
+    return NULL;
+}
+
 /* Task 3 */
 void readDictionary(char *dictName) {
     FILE *fp = fopen(dictName, "r");
@@ -74,7 +102,7 @@ void readDictionary(char *dictName) {
         fprintf(stderr, "file doesn't exist");
         exit(61);
     }
-
+/*
     char *key;
     char *data;
     while (1) {
@@ -89,15 +117,27 @@ void readDictionary(char *dictName) {
         }
         insertData(dictionary, key, data);
     }
+*/
+    int *ch;
+    ch = malloc(sizeof(int));
+
+    while (1) {
+        if ((*ch = fgetc(fp) == EOF)) {
+            break;
+        }
+
+        char *key = readString(fp);
+        char *data = readString(fp);
+
+        if (key && data) {
+            insertData(dictionary, key, data);
+        }
+    }
         
     fclose(fp);
 }
 
 /* Task 4 */
-int isAlphanumeric(int ch) {
-    return isalpha(ch) || (ch >= '0' && ch <= '9');
-}
-
 /*
  * return the word starting from ch, word reading may be terminated by a
  * non-alphanumeric character, the parameter pointer ch will get this

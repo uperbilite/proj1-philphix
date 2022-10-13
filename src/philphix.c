@@ -71,17 +71,25 @@ int isAlphanumeric(int ch) {
     return isalpha(ch) || (ch >= '0' && ch <= '9');
 }
 
+/*
+ * return a pointer to a string, if no string can be read,
+ * return null.
+ */
 char *readString(FILE *fp) {
     int size = 20;
     int len = 0;
     char *string = malloc(sizeof(char) * size);
     int ch;
 
-    // filter the whitespace character
-    while ((ch = fgetc(fp)) != EOF && isspace(ch));
-
-    while ((ch = fgetc(fp)) != EOF) {
-        if (isspace(ch)) {
+    while (1) {
+        ch = fgetc(fp);
+        if (ch == EOF && len == 0) {
+            break;
+        }
+        if (isspace(ch) && len == 0) {
+            continue;
+        }
+        if ((isspace(ch) || ch == EOF) && len != 0) {
             string[len++] = '\0';
             return realloc(string, sizeof(char) * len);
         }
@@ -102,35 +110,15 @@ void readDictionary(char *dictName) {
         fprintf(stderr, "file doesn't exist");
         exit(61);
     }
-/*
-    char *key;
-    char *data;
-    while (1) {
-        // TODO: Read key that only contains alphanumeric characters
-        // TODO: key and data string's length can be over than 60
-        key = (char *) malloc(sizeof(char) * 61);
-        data = (char *) malloc(sizeof(char) * 61);
-        if (fscanf(fp, "%s%s", key, data) == EOF) {
-            free(key);
-            free(data);
-            break;
-        }
-        insertData(dictionary, key, data);
-    }
-*/
-    int *ch;
-    ch = malloc(sizeof(int));
+    rewind(fp);
 
     while (1) {
-        if ((*ch = fgetc(fp) == EOF)) {
-            break;
-        }
-
         char *key = readString(fp);
         char *data = readString(fp);
-
         if (key && data) {
             insertData(dictionary, key, data);
+        } else {
+            break;
         }
     }
         

@@ -99,17 +99,11 @@ int isAlphanumeric(int ch) {
 }
 
 /*
- * return true if a word has one or more upper case character.
- */
-int isFirstCharacterUpperCase(char *word) {
-    return isupper(word[0]);
-}
-
-/*
  * return the word starting from ch, word reading may be terminated by a
- * non-alphanumeric character, the parameter ch will get this and return
+ * non-alphanumeric character, the parameter pointer ch will get this
+ * and return
  */
-char *readWordFrom(int *ch) {
+char *readWordStartFrom(int *ch) {
     int len = 20;
     char *word = malloc(sizeof(char) * len);
     word[0] = (char) *ch;
@@ -133,32 +127,24 @@ char *getDataFrom(char *word) {
     char *data;
     strcpy(word_copy, word);
 
-    int flag = isFirstCharacterUpperCase(word_copy);
-
     // the exact word.
-    if (flag && (data = findData(dictionary, word_copy)) != NULL) {
+    if ((data = findData(dictionary, word_copy)) != NULL) {
         free(word_copy);
         return data;
     }
 
     // all the word except the first character to lower case.
-    if (flag) {
-        size_t len = strlen(word_copy);
-        for (int i = 0; i < len; i++) {
-            word_copy[i] = (char) tolower(word_copy[i]);
-        }
-        word_copy[0] = (char) toupper(word_copy[0]);
-        if ((data = findData(dictionary, word_copy)) != NULL) {
-            free(word_copy);
-            return data;
-        }
+    size_t len = strlen(word_copy);
+    for (int i = 1; i < len; i++) {
+        word_copy[i] = (char) tolower(word_copy[i]);
+    }
+    if ((data = findData(dictionary, word_copy)) != NULL) {
+        free(word_copy);
+        return data;
     }
 
     // the word all lower case.
-    size_t len = strlen(word_copy);
-    for (int i = 0; i < len; i++) {
-        word_copy[i] = (char) tolower(word_copy[i]);
-    }
+    word_copy[0] = (char) tolower(word_copy[0]);
     if ((data = findData(dictionary, word_copy)) != NULL) {
         free(word_copy);
         return data;
@@ -175,7 +161,7 @@ void processInput() {
 
     while ((*ch = getchar()) != EOF) {
         if (isAlphanumeric(*ch)) {
-            char *word = readWordFrom(ch);
+            char *word = readWordStartFrom(ch);
             char *data = getDataFrom(word);
             printf("%s", data);
 

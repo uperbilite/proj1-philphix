@@ -111,14 +111,10 @@ void readDictionary(char *dictName) {
         exit(61);
     }
 
-    while (1) {
-        char *key = readString(fp);
-        char *data = readString(fp);
-        if (key && data) {
-            insertData(dictionary, key, data);
-        } else {
-            break;
-        }
+    char *key;
+    char *data;
+    while ((key = readString(fp) && (data = readString(fp)))) {
+        insertData(dictionary, key, data);
     }
         
     fclose(fp);
